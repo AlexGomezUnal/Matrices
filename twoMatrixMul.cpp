@@ -53,10 +53,10 @@ protected: std::vector<T> createMatrixAsAVector(int row, int col){
     T lowerBound = 0;
     T upperBound = 1000;
  
-    srandom(time(NULL));
+    srand(time(NULL));
 
     for(int i=0; i<row*col; i++){
-    T randomNumber = lowerBound + (upperBound - lowerBound)* (random() % max_rand)/ max_rand;
+    T randomNumber = lowerBound + (upperBound - lowerBound)* (rand() % max_rand)/ max_rand;
     MatrixAsVector.push_back(randomNumber);
     }
 
