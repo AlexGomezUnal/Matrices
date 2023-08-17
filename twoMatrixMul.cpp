@@ -135,9 +135,23 @@ public: std::vector<T> duplicateVectorB(){
 	}
 	return duplicateB; 		
 }
-protected: std::vector<T> duplicateVectorA(){
+public: std::vector<T> duplicateVectorA(){
 	std::vector<T> duplicateA;
 
+	int index =0;
+	int count=1; 
+	for(int i=0; i<(this->B.getV().size()*A.getRow()); i++){
+		duplicateA.push_back(this->A.getV()[index]); 
+		if(index % (int) this->B.getRow() == 0 && index !=0){
+			index -=this->B.getRow();
+			if(count % (int) this->B.getRow()){
+				index = count - 1 ;
+			}
+			count++; 
+			
+		}
+		index++;
+	} 
 	
 	return duplicateA;
 }
@@ -145,7 +159,7 @@ public: Matrix<T> matrixMultiply(){
 	std::vector<T> DuplyA = this->duplicateVectorA();
 	std::vector<T> DuplyB = this->duplicateVectorB();
 	std::vector<T> products;
-	
+
 	Matrix<T> C;
 	C.setRow(this->A.getRow());
 	C.setCol(this->B.getCol());
@@ -171,7 +185,11 @@ int main() {
 	Matrix<double> A(3,2);
 	Matrix<double> B(2,2);
 	MatrixMult<double> matrixMultiplierA(A,B);
-	matrixMultiplierA.getB().printMatrix();
+	matrixMultiplierA.getA().printMatrix();
+	std::vector<double> DuplyA = matrixMultiplierA.duplicateVectorA();
+	for (double number:DuplyA){
+		std::cout<<number<<" ";
+	}
 	/*MatrixMult<int> matrixMultiplierB(3,3,3,2);
     matrixMultiplierB.getA().printMatrix(); 
 	matrixMultiplierB.getB().printMatrix();	*/	    
