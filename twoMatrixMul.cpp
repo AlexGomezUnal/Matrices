@@ -25,14 +25,14 @@ public: void  setRow(int row){
 	this->row = row;
 }
 
-public : T getRow(){
+public : int getRow(){
 	return this->row;
 }  
 public: void setCol(int col){
 	this->col = col;
 }
 
-public: T getCol(){
+public: int getCol(){
 	return this->col; 
 }
 public: std::vector<T> getV(){
@@ -139,17 +139,20 @@ public: std::vector<T> duplicateVectorA(){
 	std::vector<T> duplicateA;
 
 	int index =0;
-	int count=1; 
+	int count=0; 
 	for(int i=0; i<(this->B.getV().size()*A.getRow()); i++){
-		duplicateA.push_back(this->A.getV()[index]); 
-		if(index % (int) this->B.getRow() == 0 && index !=0){
-			index -=this->B.getRow();
-			if(count % (int) this->B.getRow()){
-				index = count - 1 ;
+		std::cout<<"This is the index "<<index<<std::endl;
+		std::cout<<"This is the count "<<count<<std::endl;
+		if((index % this->B.getRow() )== 0  && index !=0){
+			index -=(this->B.getRow());
+			if(count % this->B.getRow()){
+				index = count;
+				std::cout<<"This is count inside "<<count<<std::endl;
 			}
 			count++; 
 			
 		}
+		duplicateA.push_back(this->A.getV()[index]); 
 		index++;
 	} 
 	
@@ -186,6 +189,7 @@ int main() {
 	Matrix<double> B(2,2);
 	MatrixMult<double> matrixMultiplierA(A,B);
 	matrixMultiplierA.getA().printMatrix();
+	std::cout<<matrixMultiplierA.getB().getCol()<<std::endl;
 	std::vector<double> DuplyA = matrixMultiplierA.duplicateVectorA();
 	for (double number:DuplyA){
 		std::cout<<number<<" ";
