@@ -127,10 +127,11 @@ public: std::vector<T> duplicateVectorB(){
 	int index=0;
 	for(int i=0; i<(this->B.getV().size()*A.getRow()); i++){
 		duplicateB.push_back(this->BorganizedB.getV()[index]);
-		if(index >= this->B.getV().size()){
+		if(index == this->B.getV().size()-1){
 			index = -1;
 		}
-		index++;   
+		index++;
+		   
 	}
 	return duplicateB; 		
 }
@@ -149,13 +150,7 @@ int main() {
 	Matrix<double> A(3,2);
 	Matrix<double> B(2,2);
 	MatrixMult<double> matrixMultiplierA(A,B);
-	Matrix<double> Borg(2,2);
-	Matrix<double> Bduplicate(2,2); 
 	matrixMultiplierA.getB().printMatrix();
-	Borg.setMatrix(matrixMultiplierA.reorganizeVectorB());
-	Bduplicate.setMatrix(matrixMultiplierA.duplicateVectorB());
-	//Borg.printMatrix();
-	Bduplicate.printMatrix();
 	/*MatrixMult<int> matrixMultiplierB(3,3,3,2);
     matrixMultiplierB.getA().printMatrix(); 
 	matrixMultiplierB.getB().printMatrix();	*/	    
