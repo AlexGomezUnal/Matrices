@@ -125,7 +125,7 @@ public: std::vector<T> duplicateVectorB(){
 	this->BorganizedB.setMatrix(this->reorganizeVectorB());
 	std::vector<T> duplicateB;
 	int index=0;
-	for(int i=0; i<(this->B.getV().size()*A.getRow()); i++){
+	for(int i=0; i<(this->B.getV().size()*this->A.getRow()); i++){
 		duplicateB.push_back(this->BorganizedB.getV()[index]);
 		if(index == this->B.getV().size()-1){
 			index = -1;
@@ -140,14 +140,15 @@ public: std::vector<T> duplicateVectorA(){
 
 	int index =0;
 	int count=0; 
-	for(int i=0;i<(this->B.getV().size()*A.getRow()); ++i){
+	for(int i=0;i<(this->B.getCol()*this->B.getRow()*this->A.getRow()); ++i){
 		
-		if(index%this->B.getCol() == 0 && index !=0){
-			index -= (this->B.getCol() + count);
+		if(index%this->B.getRow() == 0 && index !=0){
+			index -= (this->B.getRow() + count);
 			count++;
-			if(count%this->B.getRow() ==0 && index !=0){
-				index += (this->B.getCol() + count -1) ;
-				count -= this->B.getCol();
+			if(count%this->B.getCol() ==0 && index !=0){
+				index += (this->B.getRow() + count);
+				index--;
+				count =0;
 			}   
 		}
 		duplicateA.push_back(this->A.getV()[index]);   
@@ -184,7 +185,7 @@ public: Matrix<T> matrixMultiply(){
 };   
 int main() { 
 	Matrix<double> A(3,2);
-	Matrix<double> B(2,2);
+	Matrix<double> B(2,4);
 	MatrixMult<double> matrixMultiplierA(A,B);
 	matrixMultiplierA.getA().printMatrix();
 	std::vector<double> DuplyA = matrixMultiplierA.duplicateVectorA();
