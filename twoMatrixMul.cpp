@@ -140,21 +140,19 @@ public: std::vector<T> duplicateVectorA(){
 
 	int index =0;
 	int count=0; 
-	for(int i=0; i<(this->B.getV().size()*A.getRow()); i++){
-		std::cout<<"This is the index "<<index<<std::endl;
-		std::cout<<"This is the count "<<count<<std::endl;
-		if((index % this->B.getRow() )== 0  && index !=0){
-			index -=(this->B.getRow());
-			if(count % this->B.getRow()){
-				index = count;
-				std::cout<<"This is count inside "<<count<<std::endl;
-			}
-			count++; 
-			
+	for(int i=0;i<(this->B.getV().size()*A.getRow()); ++i){
+		
+		if(index%this->B.getCol() == 0 && index !=0){
+			index -= (this->B.getCol() + count);
+			count++;
+			if(count%this->B.getRow() ==0 && index !=0){
+				index += (this->B.getCol() + count -1) ;
+				count -= this->B.getCol();
+			}   
 		}
-		duplicateA.push_back(this->A.getV()[index]); 
-		index++;
-	} 
+		duplicateA.push_back(this->A.getV()[index]);   
+		index++;	   
+	}		
 	
 	return duplicateA;
 }
@@ -189,7 +187,6 @@ int main() {
 	Matrix<double> B(2,2);
 	MatrixMult<double> matrixMultiplierA(A,B);
 	matrixMultiplierA.getA().printMatrix();
-	std::cout<<matrixMultiplierA.getB().getCol()<<std::endl;
 	std::vector<double> DuplyA = matrixMultiplierA.duplicateVectorA();
 	for (double number:DuplyA){
 		std::cout<<number<<" ";
