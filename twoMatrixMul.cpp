@@ -10,9 +10,16 @@ protected: int row;
 protected: int col;
 
 public: 
-Matrix(int row, int col) : row(row), col(col) {
+Matrix(int row, int col) {
+	this->setRow(row); 
+	this->setCol(col);  
     this->createMatrixAsARandomVector();
 }
+
+public: void setMatrix(std::vector<T> in){
+	this->V = in; 
+
+}  
 
 public: void  setRow(int row){
 	this->row = row;
@@ -34,7 +41,7 @@ public: std::vector<T> getV(){
 protected: T getRandomValue() {
     T lowerBound = 0;
     T upperBound = 1000;
-	double factor = 0.00001;
+	double factor = 0.0000000001;
     int randomInt = rand(); 
 
     if (std::is_same<T, int>::value) {
@@ -73,16 +80,18 @@ template <typename T>
 class MatrixMult{ 
 const long max_rand = 1000000L;
 protected: Matrix<T> A;
-protected: Matrix<T> B; 
+protected: Matrix<T> B;
+protected: Matrix<T> BorganizedB; 
 
 
 public: 
-MatrixMult(int RowA, int ColA, int RowB, int ColB) : A(RowA, ColA), B(RowB, ColB) {
+MatrixMult(Matrix<T> Ain, Matrix<T> Bin) : A(Ain), B(Bin), BorganizedB(B.getRow(), B.getCol()){
     if (!this->checkMult()) {
         std::cout << "Sorry not possible to Compute. Try Again" << std::endl;
         exit(1);
     }
 }
+
 public: Matrix<T> getA(){
 	return this->A;
 } 
@@ -94,16 +103,16 @@ protected: bool checkMult(){
 	return A.getCol() == B.getRow();
 } 
      
-protected: std::vector<T> reorganizeVectorB() {
-    int n = this->B->size();
+public: std::vector<T> reorganizeVectorB() {
+    int n = this->B.getV().size();
     std::vector<T> BOrganized;
     
     int set = 0;
     int index =0;   
     
     for (int i=0; i<n; i++) { 
-    	BOrganized.push_back(this->B->getV()[index]);
-    	index+=this->colB;
+    	BOrganized.push_back(this->B.getV()[index]);
+    	index+=this->B.getCol();
     	if(index>=n){
     	set++;
     	index=set;   
@@ -112,12 +121,13 @@ protected: std::vector<T> reorganizeVectorB() {
     return BOrganized;
 }
 	
-protected: std::vector<T> duplicateVectorB(){
+public: std::vector<T> duplicateVectorB(){
+	this->BorganizedB.setMatrix(this->reorganizeVectorB());
 	std::vector<T> duplicateB;
 	int index=0;
-	for(int i=0; i<2*this->B->getCol(); i++){
-		duplicateB.push_back(this->B->getV()[index]);
-		if(index>=this->B->getV().size()){
+	for(int i=0; i<(this->B.getV().size()*A.getRow()); i++){
+		duplicateB.push_back(this->BorganizedB.getV()[index]);
+		if(index >= this->B.getV().size()){
 			index = -1;
 		}
 		index++;   
@@ -134,14 +144,21 @@ public: std::vector<T> matrixMultiply(){
 	this->reorganizeVectorB();
 	//for(int i=0; i<)
 }
-};       
+};   
 int main() { 
-	MatrixMult<double> matrixMultiplierA(3,3,3,2);
-    matrixMultiplierA.getA().printMatrix(); 
+	Matrix<double> A(3,2);
+	Matrix<double> B(2,2);
+	MatrixMult<double> matrixMultiplierA(A,B);
+	Matrix<double> Borg(2,2);
+	Matrix<double> Bduplicate(2,2); 
 	matrixMultiplierA.getB().printMatrix();
-	MatrixMult<int> matrixMultiplierB(3,3,3,2);
+	Borg.setMatrix(matrixMultiplierA.reorganizeVectorB());
+	Bduplicate.setMatrix(matrixMultiplierA.duplicateVectorB());
+	//Borg.printMatrix();
+	Bduplicate.printMatrix();
+	/*MatrixMult<int> matrixMultiplierB(3,3,3,2);
     matrixMultiplierB.getA().printMatrix(); 
-	matrixMultiplierB.getB().printMatrix();		    
+	matrixMultiplierB.getB().printMatrix();	*/	    
     return 0;
 }
 
