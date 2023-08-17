@@ -141,9 +141,30 @@ protected: std::vector<T> duplicateVectorA(){
 	
 	return duplicateA;
 }
-public: std::vector<T> matrixMultiply(){
-	this->reorganizeVectorB();
-	//for(int i=0; i<)
+public: Matrix<T> matrixMultiply(){
+	std::vector<T> DuplyA = this->duplicateVectorA();
+	std::vector<T> DuplyB = this->duplicateVectorB();
+	std::vector<T> products;
+	
+	Matrix<T> C;
+	C.setRow(this->A.getRow());
+	C.setCol(this->B.getCol());
+
+	T element =0;
+	int index=0;
+	std::vector<T> result;
+	for(int i=0; i<DuplyA.size(); i++){
+		products.push_back(DuplyA[i]*DuplyB[i]);
+		element+=products[i];
+		if(index == this->A.getRow()){
+			result.push_back(element);
+			index == -1;
+		}  
+		index++;
+	}
+	
+	C.setMatrix(result);
+	return C;    
 }
 };   
 int main() { 
