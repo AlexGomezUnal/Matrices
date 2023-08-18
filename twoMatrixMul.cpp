@@ -140,25 +140,15 @@ public: std::vector<T> duplicateVectorA(){
 
 	int index =0;
 	int count=0;
-	int count2 =0; 
 	for(int i=0;i<(this->B.getCol()*this->B.getRow()*this->A.getRow()); ++i){
-		
 		if(index%this->B.getRow() == 0 && index !=0){
-			index -= (this->B.getRow() + count);
+			index -=(this->B.getRow());
 			count++;
-			if(count%this->B.getCol() ==0 && index !=0){
-				index += (this->B.getRow() + count);
-				index--;
-				count -=(this->B.getCol() + count2);
-				count2++;
-				if(count2 % this->A.getRow()){
-					count += (this->B.getCol() + count2);
-					count--;
-				}  
-
+			if((count%this->B.getCol()) ==0 && count !=0){
+				index = (count/(this->B.getCol()))*(this->B.getRow());
 			}   
 		}
-		duplicateA.push_back(this->A.getV()[index]);   
+		duplicateA.push_back(this->A.getV()[index]);
 		index++;	   
 	}		
 	
