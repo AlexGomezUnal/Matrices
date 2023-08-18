@@ -173,7 +173,7 @@ public: Matrix<T> matrixMultiply(){
 		if(index%this->A.getCol() == 0 && index !=0){
 			result.push_back(element);
 			element =0; 
-			index == -1;
+			index = -1;
 		} 
 		products.push_back(DuplyA[i]*DuplyB[i]);
 		element+=products[i];
