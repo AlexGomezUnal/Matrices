@@ -43,7 +43,8 @@ public: std::vector<T> getV(){
 	return this->V; 
 } 
 protected: T getRandomValue() {
-    T lowerBound = 0;
+    //TODO: find better func
+	T lowerBound = 0;
     T upperBound = 1000;
 	double factor = 0.00000001;
     int randomInt = rand(); 
