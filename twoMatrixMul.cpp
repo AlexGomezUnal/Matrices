@@ -12,9 +12,13 @@ protected: int col;
 public: 
 Matrix(int row, int col) {
 	this->setRow(row); 
-	this->setCol(col);  
-    this->createMatrixAsARandomVector();
+	this->setCol(col);
+	this->createMatrixAsARandomVector(); 
 }
+
+public: void fillWithZeros(){
+	for(int i=0; i<this->V.size(); i++) V.push_back(0);
+} 
 
 public: void setMatrix(std::vector<T> in){
 	this->V = in; 
@@ -41,7 +45,7 @@ public: std::vector<T> getV(){
 protected: T getRandomValue() {
     T lowerBound = 0;
     T upperBound = 1000;
-	double factor = 0.0000000001;
+	double factor = 0.00000001;
     int randomInt = rand(); 
 
     if (std::is_same<T, int>::value) {
@@ -159,20 +163,19 @@ public: Matrix<T> matrixMultiply(){
 	std::vector<T> DuplyB = this->duplicateVectorB();
 	std::vector<T> products;
 
-	Matrix<T> C;
-	C.setRow(this->A.getRow());
-	C.setCol(this->B.getCol());
+	Matrix<T> C(this->A.getRow(),this->B.getCol());
 
 	T element =0;
 	int index=0;
 	std::vector<T> result;
 	for(int i=0; i<DuplyA.size(); i++){
+		if(index%this->A.getCol() == 0 && index !=0){
+			result.push_back(element);
+			element =0; 
+			index == -1;
+		} 
 		products.push_back(DuplyA[i]*DuplyB[i]);
 		element+=products[i];
-		if(index == this->A.getRow()){
-			result.push_back(element);
-			index == -1;
-		}  
 		index++;
 	}
 	
@@ -181,17 +184,12 @@ public: Matrix<T> matrixMultiply(){
 }
 };   
 int main() { 
-	Matrix<double> A(3,2);
-	Matrix<double> B(2,4);
-	MatrixMult<double> matrixMultiplierA(A,B);
+	Matrix<int> A(3,2);
+	Matrix<int> B(2,4);
+	MatrixMult<int> matrixMultiplierA(A,B);
 	matrixMultiplierA.getA().printMatrix();
-	std::vector<double> DuplyA = matrixMultiplierA.duplicateVectorA();
-	for (double number:DuplyA){
-		std::cout<<number<<" ";
-	}
-	/*MatrixMult<int> matrixMultiplierB(3,3,3,2);
-    matrixMultiplierB.getA().printMatrix(); 
-	matrixMultiplierB.getB().printMatrix();	*/	    
+	matrixMultiplierA.getB().printMatrix();
+	matrixMultiplierA.matrixMultiply().printMatrix();
     return 0;
 }
 
