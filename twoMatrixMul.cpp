@@ -167,17 +167,18 @@ public: Matrix<T> matrixMultiply(){
 	Matrix<T> C(this->A.getRow(),this->B.getCol());
 
 	T element =0;
-	int index=0;
-	std::vector<T> result;
-	for(int i=0; i<DuplyA.size(); i++){
-		if(index%this->A.getCol() == 0 && index !=0){
+	std::vector<T> result;  
+	for(int i=0; i<=DuplyA.size(); i++){
+		if(i%this->A.getCol() == 0 && i!=0){
 			result.push_back(element);
-			element =0; 
-			index = -1;
-		} 
+			element=products[i];
+			if(i%(this->A.getCol()*this->A.getRow())==0){
+				element=0;
+			}   
+		}
 		products.push_back(DuplyA[i]*DuplyB[i]);
 		element+=products[i];
-		index++;
+
 	}
 	
 	C.setMatrix(result);
