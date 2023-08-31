@@ -8,7 +8,7 @@ class Matrix{
 protected: std::vector<T> V;	
 protected: int row; 
 protected: int col;
-public: int n = 100;
+public: int n = 1000000;
 
 public: 
 Matrix(int row, int col) {
