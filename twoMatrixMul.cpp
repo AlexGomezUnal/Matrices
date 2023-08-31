@@ -1,14 +1,14 @@
 #include <iostream>
 #include <vector>
 #include <random>
-
+#include <chrono>
 
 template <typename T> 
 class Matrix{
 protected: std::vector<T> V;	
 protected: int row; 
 protected: int col;
-public: int n = 1000;
+public: int n = 100;
 
 public: 
 Matrix(int row, int col) {
@@ -185,12 +185,17 @@ public: Matrix<T> matrixMultiply(){
 }
 };   
 int main() { 
-	Matrix<int> A(3,2);
-	Matrix<int> B(2,3);
+	auto start = std::chrono::steady_clock::now();
+	Matrix<int> A(30,20);
+	Matrix<int> B(20,30);
 	MatrixMult<int> matrixMultiplierA(A,B);
 	matrixMultiplierA.getA().printMatrix();
 	matrixMultiplierA.getB().printMatrix();
-	matrixMultiplierA.matrixMultiply().printMatrix();
-    return 0;
+	matrixMultiplierA.matrixMultiply();
+    auto end = std::chrono::steady_clock::now();
+	auto diff = end -start;
+    std::cout<<std::chrono::duration <double, std::milli> (diff).count()<<" ms"<<std::endl;
+
+	return 0;
 }
 
