@@ -8,7 +8,7 @@ class Matrix{
 protected: std::vector<T> V;	
 protected: int row; 
 protected: int col;
-public: int n = 100000;
+public: int n = 1000;
 
 public: 
 Matrix(int row, int col) {
@@ -43,16 +43,17 @@ public: std::vector<T> getV(){
 	return this->V; 
 } 
 protected: T getRandomValue() {
-	std::default_random_engine generator;
-	srand(time(NULL));
-	generator.seed(rand());
 
     if (std::is_same<T, int>::value) {
-		std::uniform_int_distribution<int> distribution (-this->n,this->n); 
-        return distribution(generator);
+		std::random_device rd;
+    	std::mt19937 gen(rd());
+    	std::uniform_int_distribution<> dis(-this->n, this->n);
+		return dis(gen); 
     } else if (std::is_same<T, double>::value) {
-        std::uniform_real_distribution<float> distribution (-this->n,this->n); 
-        return distribution(generator);
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<double> dis(-this->n, this->n);
+		return dis(gen);
     } else {
 		std::cout<<"Sorry not Suported bye"<<std::endl;
 		exit(1);
