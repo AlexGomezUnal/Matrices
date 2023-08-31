@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <time.h>
+#include <random>
 
 
 template <typename T> 
@@ -8,6 +8,7 @@ class Matrix{
 protected: std::vector<T> V;	
 protected: int row; 
 protected: int col;
+public: int n = 100000;
 
 public: 
 Matrix(int row, int col) {
@@ -15,7 +16,6 @@ Matrix(int row, int col) {
 	this->setCol(col);
 	this->createMatrixAsARandomVector(); 
 }
-
 public: void fillWithZeros(){
 	for(int i=0; i<this->V.size(); i++) V.push_back(0);
 } 
@@ -43,31 +43,28 @@ public: std::vector<T> getV(){
 	return this->V; 
 } 
 protected: T getRandomValue() {
-    //TODO: find better func
-	T lowerBound = 0;
-    T upperBound = 1000;
-	double factor = 0.00000001;
-    int randomInt = rand(); 
+	std::default_random_engine generator;
+	srand(time(NULL));
+	generator.seed(rand());
 
     if (std::is_same<T, int>::value) {
-        return factor*(lowerBound + (upperBound - lowerBound) * randomInt);
+		std::uniform_int_distribution<int> distribution (-this->n,this->n); 
+        return distribution(generator);
     } else if (std::is_same<T, double>::value) {
-        return factor*(lowerBound + (upperBound - lowerBound) * static_cast<double>(randomInt)) ;
+        std::uniform_real_distribution<float> distribution (-this->n,this->n); 
+        return distribution(generator);
     } else {
 		std::cout<<"Sorry not Suported bye"<<std::endl;
 		exit(1);
         return T{};
     }
 } 
-protected: void createMatrixAsARandomVector(){
-
- 
-    srand(time(NULL));
+protected: void createMatrixAsARandomVector(){ 
 
     for(int i=0; i<this->row*this->col; i++){
     T randomNumber = this->getRandomValue();
     this->V.push_back(randomNumber);
-    }
+	}
 } 
 
 public: void printMatrix(){
@@ -95,6 +92,7 @@ MatrixMult(Matrix<T> Ain, Matrix<T> Bin) : A(Ain), B(Bin), BorganizedB(B.getRow(
         std::cout << "Sorry not possible to Compute. Try Again" << std::endl;
         exit(1);
     }
+	
 }
 
 public: Matrix<T> getA(){
@@ -106,8 +104,8 @@ public: Matrix<T> getB(){
 
 protected: bool checkMult(){
 	return A.getCol() == B.getRow();
-} 
-     
+}
+
 public: std::vector<T> reorganizeVectorB() {
     int n = this->B.getV().size();
     std::vector<T> BOrganized;
@@ -187,7 +185,7 @@ public: Matrix<T> matrixMultiply(){
 };   
 int main() { 
 	Matrix<int> A(3,2);
-	Matrix<int> B(2,4);
+	Matrix<int> B(2,3);
 	MatrixMult<int> matrixMultiplierA(A,B);
 	matrixMultiplierA.getA().printMatrix();
 	matrixMultiplierA.getB().printMatrix();
