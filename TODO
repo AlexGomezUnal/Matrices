@@ -1,3 +1,21 @@
+*PRIORITY*
+
+TODO just Matrices
+Fix bigInt bigFloat number different sing multiplication in twoMatrixMul.cpp
+see if the terminal buffer overflows or if the programs memory overflows for 100x100 Matrices and above in twoMatrixMul.cpp
+Fix the said problem before
+Do the normal numtiplication algorithm in the NormalMul.cpp file
+DO the OpenMP pragma multithread in twoMatricesMul.cpp
+Do multiple runs of twoMatriceMul.py twoMatricesMul.cpp and normalMul.cpp for incremental values from 10x10 to 100000x100000 and make a table from the times for every run
+Do a graph from that said table.
+
+from a Windows machine the easiest and fastest way to have a valid gcc-g++ compiler up pand running first install scoop that is a package manager for windows https://www.wikiwand.com/en/Package_manager
+to install scoop just download from https://scoop.sh/ copy the commands in powershell
+then do [scoop install gcc]
+press [y]
+to verify just do [gcc or g++ in powershell]
+to compile any of the cpp files just do [g++ -o mult [filename]]
+*******************************************************************
 Matrices (library) (C++) (Compare so i will do this library twice)
 
 Find a better random Gen function for matrix random Generation.
