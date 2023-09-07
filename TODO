@@ -18,7 +18,11 @@ to compile any of the cpp files just do [g++ -o mult [filename]]
 *******************************************************************
 Matrices (library) (C++) (Compare so i will do this library twice)
 
-Find a better random Gen function for matrix random Generation.
+Find a better random Gen function for matrix random Generation. done
+
+Future plans
+
+Matlab plugin (somehow)
 N MAtrix Mult
 Change from DataFrames, Excel spreadsheet, CSV, JSON, SQL to Matrix and viceversa
 Matrix SUM ADN REST
